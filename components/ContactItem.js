@@ -3,13 +3,10 @@ import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
 
 const ContactItem = (props) => {
   return (
-    <View style={styles.contactContainer}>
-      <TouchableOpacity onPress={props.onPress}>
-        <Text style={styles.name}>{props.name}</Text>
-        <Text>{props.number}</Text>
-        <Image style={styles.image} source={props.imageSource} />
-      </TouchableOpacity>
-    </View>
+    <TouchableOpacity style={styles.contactContainer} onPress={props.onPress}>
+      <Image style={styles.image} source={props.imageSource} />
+      <Text style={styles.name}>{props.name}</Text>
+    </TouchableOpacity>
   );
 };
 
@@ -20,6 +17,8 @@ const styles = StyleSheet.create({
     margin: 10,
     borderRadius: 8,
     padding: 10,
+    flexDirection: "row",
+    alignItems: "center",
   },
   name: {
     fontSize: 16,
@@ -27,6 +26,10 @@ const styles = StyleSheet.create({
   image: {
     width: 30,
     height: 30,
+    marginRight: 25,
+    borderWidth: 1,
+    backgroundColor: "#bbb",
+    borderRadius: 25,
   },
 });
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FlatList, View, Text, StyleSheet } from "react-native";
+import { FlatList, View, StyleSheet } from "react-native";
 import * as Contacts from "expo-contacts";
 
 import ContactItem from "../components/ContactItem";
@@ -36,25 +36,29 @@ const AllContactsScreen = ({ navigation }) => {
   };
 
   return (
-    <View>
+    <View style={styles.container}>
       <View style={styles.searchContainer}>
         <Search onChangeText={(text) => setSearch(text)} />
       </View>
       <FlatList
+        style={styles.flatList}
         data={contacts}
         keyExtractor={(item) => item.id}
         renderItem={renderContact}
       />
-      <View>
-        <Text>All Contacts Screen</Text>
-      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   searchContainer: {
     margin: 15,
+  },
+  flatList: {
+    flex: 1,
   },
 });
 
