@@ -39,7 +39,6 @@ const AllContactsScreen = ({ navigation }) => {
   const selectedContact = contacts.filter(({ name }) =>
     name.toLowerCase().includes(search.toLowerCase())
   );
-  console.log(selectedContact);
 
   return (
     <View style={styles.container}>

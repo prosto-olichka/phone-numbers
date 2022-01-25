@@ -1,5 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
+import call from "react-native-phone-call";
+
+/* const args = {
+    number: route.params.contact.phoneNumbers[0].number,
+    prompt: false,
+  };
+
+  call(args).catch(console.error);*/
 
 const ContactDetailsScreen = ({ route }) => {
   return (
@@ -20,7 +28,7 @@ const ContactDetailsScreen = ({ route }) => {
         <View style={styles.numbersContainer}>
           {route.params.contact.phoneNumbers.map((id, index) => {
             return (
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => call({ number: id.number })}>
                 <Text style={styles.label}>{id.label}</Text>
                 <Text style={styles.number}>{id.number}</Text>
                 {route.params.contact.phoneNumbers.length - 1 !== index && (
