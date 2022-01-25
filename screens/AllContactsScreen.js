@@ -7,6 +7,7 @@ import Search from "../components/Search";
 
 const AllContactsScreen = ({ navigation }) => {
   const [contacts, setContacts] = useState([]);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     (async () => {
@@ -35,14 +36,23 @@ const AllContactsScreen = ({ navigation }) => {
     );
   };
 
+  const selectedContact = contacts.filter(({ name }) =>
+    name.toLowerCase().includes(search.toLowerCase())
+  );
+  console.log(selectedContact);
+
   return (
     <View style={styles.container}>
       <View style={styles.searchContainer}>
-        <Search onChangeText={(text) => setSearch(text)} />
+        <Search
+          style={styles.search}
+          value={search}
+          onChangeText={(text) => setSearch(text)}
+        />
       </View>
       <FlatList
         style={styles.flatList}
-        data={contacts}
+        data={selectedContact}
         keyExtractor={(item) => item.id}
         renderItem={renderContact}
       />
@@ -56,6 +66,11 @@ const styles = StyleSheet.create({
   },
   searchContainer: {
     margin: 15,
+  },
+  search: {
+    marginHorizontal: 16,
+    marginTop: 16,
+    marginBottom: 8,
   },
   flatList: {
     flex: 1,

@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
+import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 
 const ContactDetailsScreen = ({ route }) => {
   return (
@@ -15,14 +15,24 @@ const ContactDetailsScreen = ({ route }) => {
         />
         <Text style={styles.name}>{route.params.contact.firstName}</Text>
       </View>
-      <Text style={styles.number}>
-        {route.params.contact.phoneNumbers[0].number}
-      </Text>
-      <Text style={styles.number}>
-        {!route.params.contact.phoneNumbers[1]
-          ? undefined
-          : route.params.contact.phoneNumbers[1].number}
-      </Text>
+      {route.params.contact.phoneNumbers &&
+      route.params.contact.phoneNumbers.length > 0 ? (
+        <View style={styles.numbersContainer}>
+          {route.params.contact.phoneNumbers.map((id, index) => {
+            return (
+              <TouchableOpacity>
+                <Text style={styles.label}>{id.label}</Text>
+                <Text style={styles.number}>{id.number}</Text>
+                {route.params.contact.phoneNumbers.length - 1 !== index && (
+                  <View style={styles.polosochka} />
+                )}
+              </TouchableOpacity>
+            );
+          })}
+        </View>
+      ) : (
+        <Text style={styles.noNumber}>No numbers</Text>
+      )}
     </View>
   );
 };
@@ -41,10 +51,25 @@ const styles = StyleSheet.create({
     fontSize: 30,
     margin: 15,
   },
+  numbersContainer: {
+    marginHorizontal: 15,
+    padding: 10,
+  },
+  label: {
+    textTransform: "capitalize",
+  },
   number: {
     fontSize: 18,
     fontStyle: "italic",
-    marginHorizontal: 25,
+  },
+  polosochka: {
+    borderBottomWidth: 1,
+    marginVertical: 10,
+  },
+  noNumber: {
+    fontSize: 18,
+    fontStyle: "italic",
+    alignSelf: "center",
   },
 });
 
