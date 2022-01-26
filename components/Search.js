@@ -22,10 +22,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     padding: 8,
     backgroundColor: "white",
+    elevation: 5,
     shadowColor: "black",
     shadowOpacity: 0.26,
     shadowRadius: 14,
     shadowOffset: { width: 0, height: 2 },
+    alignItems: "center",
   },
   input: {
     flex: 1,

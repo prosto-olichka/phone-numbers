@@ -24,11 +24,11 @@ const AllContactsScreen = ({ navigation }) => {
   const renderContact = (data) => {
     return (
       <ContactItem
-        name={data.item.firstName}
+        style={styles.contactItem}
+        name={data.item.name}
         imageSource={
           data.item.imageAvailable ? { uri: data.item.image.uri } : undefined
         }
-        // number={data.item.phoneNumbers[0].number}
         onPress={() => {
           navigation.navigate("Contact Details Screen", { contact: data.item });
         }}
@@ -42,34 +42,40 @@ const AllContactsScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.searchContainer}>
-        <Search
-          style={styles.search}
-          value={search}
-          onChangeText={(text) => setSearch(text)}
-        />
-      </View>
       <FlatList
+        ListHeaderComponent={
+          <Search
+            style={styles.search}
+            value={search}
+            onChangeText={setSearch}
+          />
+        }
         style={styles.flatList}
         data={selectedContact}
-        keyExtractor={(item) => item.id}
+        keyExtractor={({ id }) => id}
         renderItem={renderContact}
+        ItemSeparatorComponent={() => <View style={styles.separator} />}
       />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  contactItem: {
+    marginLeft: 16,
+  },
   container: {
     flex: 1,
   },
-  searchContainer: {
-    margin: 15,
+  separator: {
+    borderWidth: 0.5,
+    borderColor: "gray",
+    marginLeft: 70,
   },
   search: {
     marginHorizontal: 16,
-    marginTop: 16,
-    marginBottom: 8,
+    marginTop: 10,
+    marginBottom: 5,
   },
   flatList: {
     flex: 1,

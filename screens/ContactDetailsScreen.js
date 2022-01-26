@@ -1,38 +1,35 @@
-import React, { useState } from "react";
+import React from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import call from "react-native-phone-call";
 
-/* const args = {
-    number: route.params.contact.phoneNumbers[0].number,
-    prompt: false,
-  };
-
-  call(args).catch(console.error);*/
-
-const ContactDetailsScreen = ({ route }) => {
+const ContactDetailsScreen = ({
+  route: {
+    params: { contact },
+  },
+}) => {
   return (
     <View>
       <View style={styles.imageContainer}>
         <Image
           style={styles.contactPhoto}
           source={
-            route.params.contact.imageAvailable
-              ? { uri: route.params.contact.image.uri }
-              : undefined
+            contact.imageAvailable ? { uri: contact.image.uri } : undefined
           }
         />
-        <Text style={styles.name}>{route.params.contact.firstName}</Text>
+        <Text style={styles.name}>{contact.firstName}</Text>
       </View>
-      {route.params.contact.phoneNumbers &&
-      route.params.contact.phoneNumbers.length > 0 ? (
+      {contact.phoneNumbers && contact.phoneNumbers.length > 0 ? (
         <View style={styles.numbersContainer}>
-          {route.params.contact.phoneNumbers.map((id, index) => {
+          {contact.phoneNumbers.map((phoneNumber, index) => {
             return (
-              <TouchableOpacity onPress={() => call({ number: id.number })}>
-                <Text style={styles.label}>{id.label}</Text>
-                <Text style={styles.number}>{id.number}</Text>
-                {route.params.contact.phoneNumbers.length - 1 !== index && (
-                  <View style={styles.polosochka} />
+              <TouchableOpacity
+                key={phoneNumber.id}
+                onPress={() => call({ number: phoneNumber.number })}
+              >
+                <Text style={styles.label}>{phoneNumber.label}</Text>
+                <Text style={styles.number}>{phoneNumber.number}</Text>
+                {contact.phoneNumbers.length - 1 !== index && (
+                  <View style={styles.separator} />
                 )}
               </TouchableOpacity>
             );
@@ -70,9 +67,10 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontStyle: "italic",
   },
-  polosochka: {
+  separator: {
     borderBottomWidth: 1,
     marginVertical: 10,
+    borderColor: "#ccc",
   },
   noNumber: {
     fontSize: 18,
