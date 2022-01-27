@@ -1,13 +1,42 @@
-import React, { useState, useEffect } from "react";
-import { FlatList, View, StyleSheet } from "react-native";
+import React, { useState, useEffect, useLayoutEffect } from "react";
+import { FlatList, View, StyleSheet, TouchableOpacity } from "react-native";
 import * as Contacts from "expo-contacts";
+import { MaterialIcons } from "@expo/vector-icons";
+import { useActionSheet } from "@expo/react-native-action-sheet";
 
 import ContactItem from "../components/ContactItem";
 import Search from "../components/Search";
 
 const AllContactsScreen = ({ navigation }) => {
-  const [contacts, setContacts] = useState([]);
+  const [allContacts, setContacts] = useState([]);
   const [search, setSearch] = useState("");
+  const [sortType, setSortType] = useState(0);
+
+  const { showActionSheetWithOptions } = useActionSheet();
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity
+          onPress={() =>
+            showActionSheetWithOptions(
+              {
+                options: ["By first name", "By last name", "Cancel"],
+                cancelButtonIndex: 2,
+              },
+              (item) => {
+                if (item < 2) {
+                  setSortType(item);
+                }
+              }
+            )
+          }
+        >
+          <MaterialIcons name="sort" size={24} color="gray" />
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation]);
 
   useEffect(() => {
     (async () => {
@@ -36,9 +65,15 @@ const AllContactsScreen = ({ navigation }) => {
     );
   };
 
-  const selectedContact = contacts.filter(({ name }) =>
-    name.toLowerCase().includes(search.toLowerCase())
-  );
+  const contactsToDisplay = allContacts
+    .filter(({ name }) => name.toLowerCase().includes(search.toLowerCase()))
+    .sort((a, b) => {
+      if (sortType === 0) {
+        return a.firstName.localeCompare(b.firstName);
+      } else {
+        return a.lastName.localeCompare(b.lastName);
+      }
+    });
 
   return (
     <View style={styles.container}>
@@ -51,7 +86,7 @@ const AllContactsScreen = ({ navigation }) => {
           />
         }
         style={styles.flatList}
-        data={selectedContact}
+        data={contactsToDisplay}
         keyExtractor={({ id }) => id}
         renderItem={renderContact}
         ItemSeparatorComponent={() => <View style={styles.separator} />}
