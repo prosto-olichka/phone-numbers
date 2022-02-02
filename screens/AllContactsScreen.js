@@ -69,9 +69,13 @@ const AllContactsScreen = ({ navigation }) => {
     .filter(({ name }) => name.toLowerCase().includes(search.toLowerCase()))
     .sort((a, b) => {
       if (sortType === 0) {
-        return a.firstName.localeCompare(b.firstName);
+        const aFirstName = a.firstName || "";
+        const bFirstName = b.firstName || "";
+        return aFirstName.localeCompare(bFirstName);
       } else {
-        return a.lastName.localeCompare(b.lastName);
+        const aLastName = a.lastName || "";
+        const bLastName = b.lastName || "";
+        return aLastName.localeCompare(bLastName);
       }
     });
 
