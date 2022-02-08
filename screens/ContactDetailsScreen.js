@@ -1,12 +1,32 @@
-import React from "react";
+import React, { useLayoutEffect } from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import call from "react-native-phone-call";
+import { Ionicons } from "@expo/vector-icons";
+import { useSelector, useDispatch } from "react-redux";
+
+import { toggleFavorite } from "../store/actions/favorite";
 
 const ContactDetailsScreen = ({
+  navigation,
   route: {
     params: { contact },
   },
 }) => {
+  const isFavorite = useSelector((state) =>
+    state.favoriteContactIds.includes(contact.id)
+  );
+  const dispatch = useDispatch();
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity onPress={() => dispatch(toggleFavorite(contact.id))}>
+          <Ionicons name={isFavorite ? "star" : "star-outline"} />
+        </TouchableOpacity>
+      ),
+    });
+  }, [isFavorite, navigation]);
+
   return (
     <View>
       <View style={styles.imageContainer}>
