@@ -13,14 +13,14 @@ const ContactDetailsScreen = ({
   },
 }) => {
   const isFavorite = useSelector((state) =>
-    state.favoriteContactIds.includes(contact.id)
+    state.favoriteContacts.includes(contact)
   );
   const dispatch = useDispatch();
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <TouchableOpacity onPress={() => dispatch(toggleFavorite(contact.id))}>
+        <TouchableOpacity onPress={() => dispatch(toggleFavorite(contact))}>
           <Ionicons name={isFavorite ? "star" : "star-outline"} />
         </TouchableOpacity>
       ),

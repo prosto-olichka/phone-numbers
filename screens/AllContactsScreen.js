@@ -3,16 +3,21 @@ import { FlatList, View, StyleSheet, TouchableOpacity } from "react-native";
 import * as Contacts from "expo-contacts";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useActionSheet } from "@expo/react-native-action-sheet";
+import { useSelector, useDispatch } from "react-redux";
 
+import { setContacts } from "../store/actions/favorite";
 import ContactItem from "../components/ContactItem";
 import Search from "../components/Search";
 
 const AllContactsScreen = ({ navigation }) => {
-  const [allContacts, setContacts] = useState([]);
   const [search, setSearch] = useState("");
   const [sortType, setSortType] = useState(0);
 
   const { showActionSheetWithOptions } = useActionSheet();
+
+  const allContacts = useSelector((state) => state.allContacts);
+
+  const dispatch = useDispatch();
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -45,7 +50,7 @@ const AllContactsScreen = ({ navigation }) => {
         const { data } = await Contacts.getContactsAsync({
           fields: [Contacts.Fields.PhoneNumbers, Contacts.IMAGE],
         });
-        setContacts(data);
+        dispatch(setContacts(data));
       }
     })();
   }, []);
