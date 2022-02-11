@@ -1,24 +1,24 @@
-import { TOGGLE_FAVORITE, SET_CONTACTS } from "../actions/favorite";
+import { TOGGLE_FAVORITE, SET_CONTACTS } from "../actions/contacts";
 
 const initialState = {
   allContacts: [],
-  favoriteContacts: [],
+  favoriteContactIds: [],
 };
 
 const contactsReducer = (state = initialState, action) => {
   switch (action.type) {
     case TOGGLE_FAVORITE:
-      const isFavorite = state.favoriteContacts.includes(action.contact);
+      const isFavorite = state.favoriteContactIds.includes(action.id);
       if (!isFavorite) {
         return {
           ...state,
-          favoriteContacts: state.favoriteContacts.concat(action.contact),
+          favoriteContactIds: state.favoriteContactIds.concat(action.id),
         };
       } else {
         return {
           ...state,
-          favoriteContacts: state.favoriteContacts.filter(
-            (item) => item.contact === action.contact
+          favoriteContactIds: state.favoriteContactIds.filter(
+            (item) => item.id === action.id
           ),
         };
       }

@@ -10,7 +10,8 @@ import { Provider } from "react-redux";
 import AllContactsScreen from "./screens/AllContactsScreen";
 import ContactDetailsScreen from "./screens/ContactDetailsScreen";
 import FavoritesScreen from "./screens/FavoritesScreen";
-import contactsReducer from "./store/reducers/favorite";
+import contactsReducer from "./store/reducers/contacts";
+import { StatusBar } from "expo-status-bar";
 
 const store = createStore(contactsReducer);
 
@@ -57,6 +58,7 @@ export default function App() {
   return (
     <ActionSheetProvider>
       <Provider store={store}>
+        <StatusBar barStyle="dark-content" />
         <NavigationContainer>
           <Stack.Navigator>
             <Stack.Screen

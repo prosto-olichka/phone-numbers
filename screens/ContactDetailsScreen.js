@@ -4,7 +4,7 @@ import call from "react-native-phone-call";
 import { Ionicons } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
 
-import { toggleFavorite } from "../store/actions/favorite";
+import { toggleFavorite } from "../store/actions/contacts";
 
 const ContactDetailsScreen = ({
   navigation,
@@ -13,15 +13,19 @@ const ContactDetailsScreen = ({
   },
 }) => {
   const isFavorite = useSelector((state) =>
-    state.favoriteContacts.includes(contact)
+    state.favoriteContactIds.includes(contact.id)
   );
   const dispatch = useDispatch();
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <TouchableOpacity onPress={() => dispatch(toggleFavorite(contact))}>
-          <Ionicons name={isFavorite ? "star" : "star-outline"} />
+        <TouchableOpacity onPress={() => dispatch(toggleFavorite(contact.id))}>
+          <Ionicons
+            name={isFavorite ? "star" : "star-outline"}
+            size={20}
+            color="gray"
+          />
         </TouchableOpacity>
       ),
     });

@@ -4,9 +4,14 @@ import ContactItem from "../components/ContactItem";
 import { useSelector } from "react-redux";
 
 const FavoritesScreen = ({ navigation }) => {
-  const favoriteContacts = useSelector((state) => state.favoriteContacts);
+  const favoriteContactIds = useSelector((state) => state.favoriteContactIds);
+  const allContacts = useSelector((state) => state.allContacts);
 
-  if (favoriteContacts.length === 0) {
+  const favoriteContacts = allContacts.filter((contact) =>
+    favoriteContactIds.includes(contact.id)
+  );
+
+  if (favoriteContactIds.length === 0) {
     return (
       <View style={styles.noFavorite}>
         <Text>No favorites</Text>

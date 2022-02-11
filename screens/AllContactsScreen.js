@@ -5,7 +5,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import { useSelector, useDispatch } from "react-redux";
 
-import { setContacts } from "../store/actions/favorite";
+import { setContacts } from "../store/actions/contacts";
 import ContactItem from "../components/ContactItem";
 import Search from "../components/Search";
 
@@ -23,6 +23,7 @@ const AllContactsScreen = ({ navigation }) => {
     navigation.setOptions({
       headerRight: () => (
         <TouchableOpacity
+          style={{ marginRight: 16 }}
           onPress={() =>
             showActionSheetWithOptions(
               {
@@ -64,7 +65,9 @@ const AllContactsScreen = ({ navigation }) => {
           data.item.imageAvailable ? { uri: data.item.image.uri } : undefined
         }
         onPress={() => {
-          navigation.navigate("Contact Details Screen", { contact: data.item });
+          navigation.navigate("Contact Details Screen", {
+            contact: data.item,
+          });
         }}
       />
     );
